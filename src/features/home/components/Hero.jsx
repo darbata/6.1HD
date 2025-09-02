@@ -3,7 +3,7 @@ import { Meteors } from "@/components/ui/meteors"
 
 const Hero = ({className}) => {
     return (
-        <div className={`${className} relative flex flex-col justify-center items-center text-center gap-y-20 overflow-hidden`}>
+        <div className={`${className} relative flex flex-col justify-center items-center text-center gap-y-20 overflow-hidden aspect-video w-full`}>
 
             {/* this is for the background meteors keeping number for a minimal look */}
             <div className="pointer-events-none inset-0 -z-10 absolute w-full h-full">

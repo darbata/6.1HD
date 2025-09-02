@@ -6,7 +6,7 @@ import FadeInComponent from '@/shared/animations/FadeInComponent'
 
 const HomePage = () => {
   return (
-    <div className="w-full h-full flex flex-col space-y-60">
+    <div className="w-full h-full flex flex-col gap-16 ">
 
       <FadeInComponent delay={0.15}>
         <Hero />

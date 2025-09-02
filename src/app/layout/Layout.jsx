@@ -4,7 +4,7 @@ import Footer from "@/shared/ui/footer/Footer"
 
 const Layout = () => {
     return (
-        <main className="max-w-[1200px] w-full min-h-screen flex flex-col items-center self-center mx-auto overflow-hidden gap-y-24">
+        <main className="max-w-[1200px] w-full flex flex-col items-center self-center mx-auto overflow-hidden gap-y-14">
             <Nav />
             <Outlet />
             <Footer />
