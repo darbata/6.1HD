@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import Nav from "@/shared/ui/nav/Nav"
-// import Footer from "@/shared/ui/footer/Footer"
+import Footer from "@/shared/ui/footer/Footer"
 
 const Layout = () => {
     return (
-        <main className="max-w-[1200px] w-full min-h-screen flex flex-col items-center self-center mx-auto overflow-hidden">
+        <main className="max-w-[1200px] w-full min-h-screen flex flex-col items-center self-center mx-auto overflow-hidden gap-y-24">
             <Nav />
             <Outlet />
-            <div>Footer</div>
+            <Footer />
         </main>
     )
 }

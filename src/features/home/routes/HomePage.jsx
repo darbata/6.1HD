@@ -6,19 +6,25 @@ import FadeInComponent from '@/shared/animations/FadeInComponent'
 
 const HomePage = () => {
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full h-full flex flex-col space-y-60">
 
       <FadeInComponent delay={0.15}>
-        <Hero className="min-h-screen"/>
+        <Hero />
       </FadeInComponent>
 
-      <FadeInComponent delay={0.15}>
-        <FeaturedArticles className="min-h-screen"/>
-      </FadeInComponent>
+      <Separator />
 
       <FadeInComponent delay={0.15}>
-        <FeaturedQuestions className="min-h-screen"/>
+        <FeaturedArticles />
       </FadeInComponent>
+
+      <Separator />
+
+      <FadeInComponent delay={0.15}>
+        <FeaturedQuestions />
+      </FadeInComponent>
+
+      <Separator />
 
     </div>
   )

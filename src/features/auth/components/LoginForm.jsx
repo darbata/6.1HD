@@ -26,6 +26,7 @@ const LoginForm = () => {
           placeholder="email@example.com"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
+          required
         />
         <Label htmlFor="password">Password</Label>
         <Input
@@ -34,6 +35,7 @@ const LoginForm = () => {
           placeholder=""
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          required
         />
         <Button className="w-full" type="submit">Login</Button>
         <div className="relative flex items-center text-sm">
@@ -42,7 +44,7 @@ const LoginForm = () => {
           <div className="flex-grow border-t border-border" />
         </div>
         <Button asChild variant="secondary" className="w-full">
-          <Link to="signup">Sign Up</Link>
+          <Link to="/signup">Sign Up</Link>
         </Button>
       </form>
     </div>
