@@ -1,0 +1,81 @@
+import { Button } from "@/components/ui/button"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+  NavigationMenuViewport,
+} from "@/components/ui/navigation-menu"
+
+import { Link } from "react-router-dom"
+
+const Nav = () => {
+    return (
+        <div className='w-full h-[80px] flex justify-between items-center'>
+            <div className="flex gap-8">
+                <Link to="/" className="flex items-center">
+                    <img src="../public/dev-deakin-logo.png" alt="Dev@Deakin Logo" className="size-12" />
+                    <h1 className="text-2xl">DEV@DEAKIN</h1>
+                </Link>
+                <NavigationMenu viewport={false}>
+                    <NavigationMenuList className="gap-8">
+
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>Post</NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <ul className="grid w-[300px] gap-8">
+                                    <NavigationMenuLink asChild>
+                                        <Link to="/post-question">
+                                            <div className="font-medium">Write an article</div>
+                                            <div className="text-muted-foreground">Inspire or assist other students with a helpful resource.</div>
+                                        </Link>
+                                    </NavigationMenuLink>
+                                    <NavigationMenuLink asChild>
+                                        <Link to="post-article">
+                                            <div className="font-medium">Ask a question</div>
+                                            <div className="text-muted-foreground">Get help or spark an insightful discussion with likeminded peers.</div>
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </ul>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <ul className="grid w-[200px] gap-4">
+                                    <li>
+                                        <NavigationMenuLink asChild>
+                                            <Link to="articles">Questions</Link>
+                                        </NavigationMenuLink>
+                                        <NavigationMenuLink asChild>
+                                            <Link to="posts">Articles</Link>
+                                        </NavigationMenuLink>
+                                    </li>
+                                </ul>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
+
+
+                        <NavigationMenuItem>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                <Link to="pricing">Pricing</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+
+                    </NavigationMenuList> 
+                </NavigationMenu>
+            </div>
+            <div className="flex gap-8">
+                <Button variant="secondary"><Link to="login">Login</Link></Button>
+                <Button ><Link to="signup">Sign Up</Link></Button>
+            </div>
+        </div>
+    )
+}
+
+export default Nav
