@@ -17,8 +17,8 @@ const Nav = () => {
     return (
         <div className='w-full h-[80px] flex justify-between items-center'>
             <div className="flex gap-8">
-                <Link to="/" className="flex items-center">
-                    <img src="../public/dev-deakin-logo.png" alt="Dev@Deakin Logo" className="size-12" />
+                <Link to="/" className="flex items-center justify-center gap-1">
+                    <img src="../public/penguin-logo.png" alt="Dev@Deakin Logo" className="h-12 w-auto tanslate-y-3" />
                     <h1 className="text-2xl">DEV@DEAKIN</h1>
                 </Link>
                 <NavigationMenu viewport={false}>
