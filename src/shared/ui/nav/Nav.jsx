@@ -29,13 +29,13 @@ const Nav = () => {
                             <NavigationMenuContent className="z-50">
                                 <ul className="grid w-[300px] gap-2">
                                     <NavigationMenuLink asChild>
-                                        <Link to="/post-question">
+                                        <Link to="/post">
                                             <div className="font-medium">Write an article</div>
                                             <div className="text-muted-foreground">Inspire or assist other students with a helpful resource.</div>
                                         </Link>
                                     </NavigationMenuLink>
                                     <NavigationMenuLink asChild>
-                                        <Link to="post-article">
+                                        <Link to="post">
                                             <div className="font-medium">Ask a question</div>
                                             <div className="text-muted-foreground">Get help or spark an insightful discussion with likeminded peers.</div>
                                         </Link>
@@ -50,10 +50,10 @@ const Nav = () => {
                                 <ul className="grid w-[200px] gap-2">
                                     <li>
                                         <NavigationMenuLink asChild>
-                                            <Link to="articles">Questions</Link>
+                                            <Link to="questions">Questions</Link>
                                         </NavigationMenuLink>
                                         <NavigationMenuLink asChild>
-                                            <Link to="posts">Articles</Link>
+                                            <Link to="articles">Articles</Link>
                                         </NavigationMenuLink>
                                     </li>
                                 </ul>
@@ -62,7 +62,7 @@ const Nav = () => {
 
 
                         <NavigationMenuItem>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                                 <Link to="pricing">Pricing</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
@@ -71,8 +71,8 @@ const Nav = () => {
                 </NavigationMenu>
             </div>
             <div className="flex gap-8">
-                <Button variant="secondary"><Link to="login">Login</Link></Button>
-                <Button ><Link to="signup">Sign Up</Link></Button>
+                <Link to="login"><Button variant="secondary w-full h-full">Login</Button></Link>
+                <Link to="signup"><Button>Sign Up</Button></Link>
             </div>
         </div>
     )

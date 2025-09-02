@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 const Footer = () => {

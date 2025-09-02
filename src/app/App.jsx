@@ -8,6 +8,7 @@ import HomePage from '@/features/home/routes/HomePage'
 import LoginPage from '@/features/auth/routes/LoginPage'
 import SignUpPage from '@/features/auth/routes/SignUpPage'
 import PricingsPage from '@/features/subscriptions/routes/PricingsPage'
+import PostPage from '@/features/post/routes/PostPage'
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route element = {<Layout />}>
           <Route path='/' element={<HomePage />}/>
           <Route path='/pricing' element={<PricingsPage />}/>
+          <Route path='/post' element={<PostPage />}/>
         </Route>
       </Routes>
 
