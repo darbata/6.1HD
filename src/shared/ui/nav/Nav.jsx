@@ -26,7 +26,7 @@ const Nav = () => {
 
                         <NavigationMenuItem>
                             <NavigationMenuTrigger>Post</NavigationMenuTrigger>
-                            <NavigationMenuContent>
+                            <NavigationMenuContent className="z-50">
                                 <ul className="grid w-[300px] gap-2">
                                     <NavigationMenuLink asChild>
                                         <Link to="/post-question">
@@ -46,7 +46,7 @@ const Nav = () => {
 
                         <NavigationMenuItem>
                             <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
-                            <NavigationMenuContent>
+                            <NavigationMenuContent className="z-50">
                                 <ul className="grid w-[200px] gap-2">
                                     <li>
                                         <NavigationMenuLink asChild>
