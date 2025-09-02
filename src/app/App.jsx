@@ -8,10 +8,10 @@ import SignUpPage from '@/features/auth/routes/SignUpPage'
 const App = () => {
   return (
     <Routes>
+      <Route path='/login' element={<LoginPage />}/>
+      <Route path='/signup' element={<SignUpPage />}/>
       <Route element = {<Layout />}>
         <Route path='/' element={<HomePage />}/>
-        <Route path='/login' element={<LoginPage />}/>
-        <Route path='/signup' element={<SignUpPage />}/>
       </Route>
     </Routes>
   )
