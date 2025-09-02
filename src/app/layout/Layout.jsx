@@ -4,7 +4,7 @@ import Nav from "@/shared/ui/nav/Nav"
 
 const Layout = () => {
     return (
-        <main className="max-w-[1200px] w-full min-h-screen flex flex-col items-center self-center mx-auto">
+        <main className="max-w-[1200px] w-full min-h-screen flex flex-col items-center self-center mx-auto overflow-hidden">
             <Nav />
             <Outlet />
             <div>Footer</div>
