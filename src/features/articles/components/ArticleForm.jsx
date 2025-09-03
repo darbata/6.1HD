@@ -3,37 +3,59 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import FormInput from "@/shared/ui/forms/FormInput"
+import { createArticle } from "../api/articles.repo";
 
 const ArticleForm = () => {
-  const [file, setFile] = useState(null)
+  const [title, setTitle] = useState("")
+  const [abstract, setAbstract] = useState("")
+  const [articleText, setArticleText] = useState("")
+  const [tagsInput, setTagsInput] = useState("")
+  const [tags, setTags] = useState([])
+  const [imageFile, setImageFile] = useState(null)
   const [preview, setPreview] = useState(null)
 
   useEffect(() => {
-    if (!file) {
+    if (!imageFile) {
       setPreview(null)
       return
     }
-    const objectUrl = URL.createObjectURL(file)
+    const objectUrl = URL.createObjectURL(imageFile)
     setPreview(objectUrl)
     return () => URL.revokeObjectURL(objectUrl)
-  }, [file])
+  }, [imageFile])
 
   const handleFileUpload = (event) => {
     const f = event.target.files?.[0] ?? null
-    setFile(f)
+    setImageFile(f)
   }
 
-  const handleSubmit = (event) => {
+  const handleTagChange = (event) => {
+    setTagsInput(event.target.value)
+    const tagArray = event.target.value
+      .split(/[.,\s]+/) // split on comma, dot, or space
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0)
+      .slice(0, 3)
+    setTags(tagArray)
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    let id = await createArticle({title, abstract, articleText, tags, imageFile})
+    if (id) {
+      window.location.reload()
+    }
   }
 
   return (
-    <form className="flex flex-col justify-between gap-2 max-h-[800px] w-full max-w-[600px] aspect-[3/4]">
+    <form onSubmit={handleSubmit} className="flex flex-col justify-between gap-2 max-h-[800px] w-full max-w-[600px] aspect-[3/4]">
       <FormInput
         label="Title"
         input="title"
         inputType="text"
         description="Give your article an eye-catching title."
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
       />
 
       <FormInput
@@ -41,6 +63,8 @@ const ArticleForm = () => {
         input="abstract"
         inputType="textArea"
         description="Provide a TLDR :)"
+        value={abstract}
+        onChange={(event) => setAbstract(event.target.value)}
       />
 
       <FormInput
@@ -48,6 +72,8 @@ const ArticleForm = () => {
         input="content"
         inputType="textArea"
         description="Go ahead and start writing..."
+        value={articleText}
+        onChange={(event) => setArticleText(event.target.value)}
       />
 
       <FormInput
@@ -55,6 +81,8 @@ const ArticleForm = () => {
         input="tags"
         inputType="text"
         description="Add tags."
+        value={tagsInput}
+        onChange={handleTagChange}
       />
 
       <div className="flex flex-col gap-2">

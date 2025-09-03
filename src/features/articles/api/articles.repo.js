@@ -1,12 +1,12 @@
+import { db, storage } from "@/services/firebase"
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage"
-import { db, storage } from "../utils/firebase"
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 
 // firebase reference
 const articlesCol = collection(db, "articles")
 
 // routes
-export const createArticle = async ({title, imageFile, abstract, articleText, tags}) => {
+export const createArticle = async ({title, abstract, articleText, tags, imageFile}) => {
     const storageRef = ref(storage, `images/${imageFile.name}`)
 
     // upload image to bucket
@@ -29,3 +29,5 @@ export const createArticle = async ({title, imageFile, abstract, articleText, ta
     const docRef = await addDoc(articlesCol, payload)
     return docRef.id
 }
+
+// getAllArticles next?

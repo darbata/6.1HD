@@ -20,7 +20,7 @@ const QuestionCard = ({question, handleDelete}) => {
                     onPressedChange={setVisible}
                     className="grid col-span-1 aspect-square"
                 >
-                    {visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                 </Toggle>
                 <Button onClick={handleDelete} className="grid col-span-1 aspect-square" variant="destructive">
                     <Trash2 /> 

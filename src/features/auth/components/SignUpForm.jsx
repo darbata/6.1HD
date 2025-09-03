@@ -1,38 +1,66 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from 'sonner'
+import { signup } from "../api/auth"
+import { useAuth } from "@/app/contexts/AuthContext"
 
 const SignupForm = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [form, setForm] = useState(
+    {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    }
+  )
 
-  const handleSubmit = (event) => {
+  const { currentUser } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/') // navigate to home page
+    }
+  }, [currentUser])
+
+
+  // use to map => firebase error -> user message
+  const errorMessages = {
+    "auth/email-already-in-use": "This email is already registered",
+    "auth/weak-password": "Password must be at least 6 characters long",
+    "auth/invalid-email": "Invalid email address",
+    default: "Error, try again later"
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    toast.loading("Loading")
 
-    if (!email || ! password || confirmPassword) {
-      toast.dismiss()
-      toast.error("Please fill out all fields");
+    if (!form.username || !form.email || !form.password || !form.confirmPassword) {
+      toast.error("All fields required");
       return;
     }
 
-    if (password != confirmPassword) {
-      toast.dismiss()
-      toast.warning("Please ensure passwords match.")
+    if (form.password !== form.confirmPassword) {
+      toast.error("Passwords do not match");
       return;
     }
+
+    const loadingId = toast.loading("Creating account...");
 
     try {
-
+      await signup(form);
+      toast.dismiss(loadingId);
+      toast.success("Account created successfully");
     } catch (error) {
-      toast.dismiss()
-      toast.error("Problem logging in.")
+      console.error(error)
+      toast.dismiss(loadingId);
+      const message = errorMessages[error.code] || errorMessages.default;
+      toast.error(message);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col justify-around h-full w-full">
@@ -44,13 +72,24 @@ const SignupForm = () => {
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
 
+
+        <Label htmlFor="username">Username</Label>
+        <Input
+          id="username"
+          type="text"
+          placeholder="Choose a username"
+          value={form.username}
+          onChange={(event) => setForm({...form, username: event.target.value})}
+          required
+        />
+
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
           placeholder="email@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={form.email}
+          onChange={(event) => setForm({...form, email: event.target.value})}
           required
         />
 
@@ -58,8 +97,8 @@ const SignupForm = () => {
         <Input
           id="password"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={form.password}
+          onChange={(event) => setForm({...form, password: event.target.value})}
           required
         />
 
@@ -67,8 +106,8 @@ const SignupForm = () => {
         <Input
           id="confirm-password"
           type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={form.confirmPassword}
+          onChange={(event) => setForm({...form, confirmPassword: event.target.value})}
           required
         />
 

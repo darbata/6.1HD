@@ -1,15 +1,31 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { login } from "../api/auth"
+import { useAuth } from "@/app/contexts/AuthContext"
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  const { currentUser } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/') // navigate to home page
+    }
+  }, [currentUser])
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    try {
+      login(email, password)
+      // useEffect will take place and auto navigate to home page
+    } catch (error) {
+    }
   }
 
   return (
@@ -24,8 +40,8 @@ const LoginForm = () => {
           id="email"
           type="email"
           placeholder="email@example.com"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           required
         />
         <Label htmlFor="password">Password</Label>

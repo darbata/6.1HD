@@ -1,3 +1,4 @@
+import { useAuth } from "@/app/contexts/AuthContext"
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
@@ -10,15 +11,17 @@ import {
   navigationMenuTriggerStyle,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
+import { logout } from "@/features/auth/api/auth"
 
 import { Link } from "react-router-dom"
 
 const Nav = () => {
+    const currentUser = useAuth()
     return (
         <div className='w-full h-[80px] flex justify-between items-center'>
             <div className="flex gap-8">
                 <Link to="/" className="flex items-center justify-center gap-1">
-                    <img src="../public/penguin-logo.png" alt="Dev@Deakin Logo" className="h-12 w-auto tanslate-y-3" />
+                    <img src="/penguin-logo.png" alt="Dev@Deakin Logo" className="h-12 w-auto tanslate-y-3" />
                     <h1 className="text-2xl">DEV@DEAKIN</h1>
                 </Link>
                 <NavigationMenu viewport={false}>
@@ -50,10 +53,10 @@ const Nav = () => {
                                 <ul className="grid w-[200px] gap-2">
                                     <li>
                                         <NavigationMenuLink asChild>
-                                            <Link to="questions">Questions</Link>
+                                            <Link to="/questions">Questions</Link>
                                         </NavigationMenuLink>
                                         <NavigationMenuLink asChild>
-                                            <Link to="articles">Articles</Link>
+                                            <Link to="/articles">Articles</Link>
                                         </NavigationMenuLink>
                                     </li>
                                 </ul>
@@ -63,7 +66,7 @@ const Nav = () => {
 
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                <Link to="pricing">Pricing</Link>
+                                <Link to="/pricing">Pricing</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
 
@@ -71,8 +74,17 @@ const Nav = () => {
                 </NavigationMenu>
             </div>
             <div className="flex gap-8">
-                <Link to="login" className="cursor-pointer"><Button variant="ghost" className="cursor-pointer">Login</Button></Link>
-                <Link to="signup" className="cursor-pointer"><Button className="cursor-pointer">Sign Up</Button></Link>
+                {
+                    !currentUser && <Link to="/login" className="cursor-pointer"><Button variant="ghost" className="cursor-pointer">Login</Button></Link>
+                }
+                {
+                    !currentUser ?
+                    <Link to="/signup" className="cursor-pointer"><Button className="cursor-pointer">Sign Up</Button></Link>
+                    :
+                    <Button className="cursor-pointer" onClick={() => logout()}>Sign Out</Button>
+                }
+                
+                
             </div>
         </div>
     )
