@@ -1,7 +1,8 @@
-import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import QuestionListItem from "./components/QuestionListItem"
+import QuestionCard from "../components/QuestionCard"
+import { Input } from "@/components/ui/input"
+import { Calendar } from "@/components/ui/calendar"
+import { useState, useMemo } from "react"
 
 const questions = [
   {
@@ -59,32 +60,51 @@ const questions = [
     timestamp: "2025-08-10T12:00:00Z"
   }
 ]
+const QuestionsPage = () => {
+  const [search, setSearch] = useState("")
+  const [dateRange, setDateRange] = useState({from: null, to: null}) 
+  const [hidden, setHidden] = useState(new Set())
 
+  const handleDelete = (index) => {
+    setHidden((prev) => new Set(prev).add(index))
+  } 
 
-const FeaturedQuestions = ({className}) => {
+  const filtered = useMemo(() => {
+    const s = search.trim().toLowerCase();
+    const from = dateRange?.from && new Date(dateRange.from).setHours(0, 0, 0, 0);
+    const to = dateRange?.to   && new Date(dateRange.to).setHours(23, 59, 59, 999);
+
+    return questions.filter((q, i) => {
+      if (hidden.has(i)) return false;
+
+      const t = new Date(q.timestamp).getTime();
+      if (from && t < from) return false;
+      if (to && t > to) return false;
+
+      if (!s) return true;
+      return (
+        q.title.toLowerCase().includes(s) ||
+        q.body.toLowerCase().includes(s) ||
+        q.tags.some(tag => tag.toLowerCase().includes(s))
+      );
+    });
+  }, [questions, search, dateRange?.from, dateRange?.to, hidden]);
+
   return (
-      <section className={`${className}`}>
-        <h2 className="text-3xl font-bold mb-6">What are students talking about?</h2>
-        <ScrollArea className="h-90 w-full rounded-md border">
-            <div className="p-4">
-            <div className="w-full h-[1.5rem] grid grid-rows-1 grid-cols-12 gap-2 py-1">
-                <h4 className="col-span-4 mb-4 text-sm leading-none font-medium">Title</h4>
-                <h4 className="col-span-7 mb-4 text-sm leading-none font-medium">Description</h4>
-                <h4 className="col-span-1 mb-4 text-sm leading-none font-medium">Date</h4>
-            </div>
-            <Separator className="" />
-            {questions.map((question, index) => (
-                <div key={question.title}>
-                <QuestionListItem question={question} />
-                <Separator className="my-2" />
-                </div>
-            ))}
+    <div className="grid grid-cols-4 w-full h-full gap-2">
+        <div className="col-span-1 flex flex-col items-center gap-4">
+          <Input onChange={(event) => setSearch(event.target.value)} value={search} className="w-full"></Input>
+          <Calendar mode="range" selected={dateRange} onSelect={setDateRange} className="border rounded w-full"></Calendar>
+        </div>
+        <ScrollArea className="rounded-md border h-[800px] w-full col-span-3">
+            <div className="p-4 flex flex-col gap-4">
+              {filtered.map((question) => (
+                <QuestionCard key={question.index} question={question} handleDelete={() => handleDelete(question.index)} />
+              ))}
             </div>
         </ScrollArea>
-    </section>
+    </div>
   )
 }
 
-
-
-export default FeaturedQuestions
+export default QuestionsPage

@@ -71,7 +71,7 @@ const Nav = () => {
                 </NavigationMenu>
             </div>
             <div className="flex gap-8">
-                <Link to="login" className="cursor-pointer"><Button className="cursor-pointer" variant="secondary w-full h-full">Login</Button></Link>
+                <Link to="login" className="cursor-pointer"><Button variant="ghost" className="cursor-pointer">Login</Button></Link>
                 <Link to="signup" className="cursor-pointer"><Button className="cursor-pointer">Sign Up</Button></Link>
             </div>
         </div>

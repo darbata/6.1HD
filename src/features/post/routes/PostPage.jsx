@@ -27,7 +27,7 @@ const PostPage = () => {
   const prompt = postType === 'question' ? 'ask a question' : 'write an article'
 
   return (
-    <div className="flex flex-col justify-center items-center w-full min-h-screen gap-8">
+    <div className="flex flex-col justify-center h-full items-center w-full gap-8">
         <h1 className="text-5xl font-bold">Make a difference</h1>
         <div className="flex w-full gap-2 items-center justify-center">
             <span>I want to…</span>
