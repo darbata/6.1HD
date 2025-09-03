@@ -4,11 +4,12 @@ import { Toggle } from "@/components/ui/toggle"
 import { Trash2 } from "lucide-react"
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
+import { timestampToDate } from "@/services/utilities"
 
 const QuestionCard = ({question, handleDelete}) => {
     const [visible, setVisible] = useState(false)
 
-    const date = new Date(question.timestamp).toLocaleDateString() 
+    const date = question.createdAt.toLocaleDateString()
 
     return (
         <Card className={`flex flex-col w-full ${visible ? "" : "min-h-full aspect-[5/1]"}`}>
@@ -27,7 +28,7 @@ const QuestionCard = ({question, handleDelete}) => {
             </CardHeader>
 
             <CardContent>
-                <p className={`${visible ? "" : "line-clamp-1"}`}>{question.body}</p>
+                <p className={`${visible ? "" : "line-clamp-1"}`}>{question.description}</p>
             </CardContent>
 
             <CardFooter>

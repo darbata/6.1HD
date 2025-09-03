@@ -18,9 +18,16 @@ export const createQuestion = async ({title, description, tags}) =>  {
 }
 
 export const getAllQuestions = async () => {
-    const q = query(questionsCol);
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+  const snap = await getDocs(query(questionsCol))
+  return snap.docs.map(doc => {
+    const data = doc.data()
+    return {
+      id: doc.id,
+      ...data,
+      createdAt: data.createdAt?.toDate?.() || data.createdAt || null, // convert immediately so its easier to work with
+      // {seconds, nanoseconds} => Date object
+    }
+  })
 }
 
 // export const deleteQuestion = async (questionId) => {
