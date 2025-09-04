@@ -11,12 +11,16 @@ import {
   navigationMenuTriggerStyle,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
+import ProfileCard from "./ProfileCard"
 import { logout } from "@/features/auth/api/auth"
+import { getUser } from "@/features/auth/api/users.repo"
 
 import { Link } from "react-router-dom"
 
 const Nav = () => {
     const currentUser = useAuth()
+    const profile = currentUser.currentUser
+    console.log(profile)
     return (
         <div className='w-full h-[80px] flex justify-between items-center'>
             <div className="flex gap-8">
@@ -86,6 +90,9 @@ const Nav = () => {
                 {
                     !currentUser ?
                     <Link to="/signup" className="cursor-pointer"><Button className="cursor-pointer">Sign Up</Button></Link>
+                    :
+                    profile ?
+                    <ProfileCard displayName={profile.displayName} photoURL={profile.photoURL}/>
                     :
                     <Button className="cursor-pointer" onClick={() => logout()}>Sign Out</Button>
                 }

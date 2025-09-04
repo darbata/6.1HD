@@ -7,6 +7,10 @@ export const useAuth = () => {
     return useContext(AuthContext)
 }
 
+export const getCurrentUser = () => {
+    return useAuth.currentUser
+}
+
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null)
     const [loading, setLoading] = useState(true)
