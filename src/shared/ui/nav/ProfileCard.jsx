@@ -14,7 +14,6 @@ import { useAuth } from "@/app/contexts/AuthContext";
 
 const ProfileCard = ({ displayName, photoURL }) => {
     const auth = useAuth()
-    console.log(displayName, photoURL)
     return (
         <DropdownMenu viewport={false}>
             <DropdownMenuTrigger asChild>
@@ -24,7 +23,7 @@ const ProfileCard = ({ displayName, photoURL }) => {
                         <AvatarFallback><User /></AvatarFallback>
                     </Avatar>
                     <div className="flex items-center">
-                        <h2 className="text-xl font-bold">{displayName}</h2>
+                        <h2 className="text-lg">{displayName}</h2>
                     </div>
                 </Button>
             </DropdownMenuTrigger>

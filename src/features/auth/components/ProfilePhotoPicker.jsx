@@ -7,7 +7,6 @@ const ProfilePhotoPicker = ({file, setFile}) => {
   const handleFile = (file) => {
     if (file && file.type.startsWith("image/")) {
       setFile(file)
-      console.log(file)
       setPreview(URL.createObjectURL(file));
     }
   };

@@ -20,7 +20,6 @@ import { Link } from "react-router-dom"
 const Nav = () => {
     const currentUser = useAuth()
     const profile = currentUser.currentUser
-    console.log(profile)
     return (
         <div className='w-full h-[80px] flex justify-between items-center'>
             <div className="flex gap-8">

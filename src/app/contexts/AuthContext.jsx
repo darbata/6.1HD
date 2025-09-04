@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => { // updates user if firebase notices a change
         const unsub = listenAuthChange((user) => {
-            console.log(user)
             setCurrentUser(user)
             setLoading(false)
         })
