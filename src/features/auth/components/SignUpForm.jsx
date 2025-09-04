@@ -6,14 +6,17 @@ import { Link, useNavigate } from "react-router-dom"
 import { toast } from 'sonner'
 import { signup } from "../api/auth"
 import { useAuth } from "@/app/contexts/AuthContext"
+import ProfilePhotoPicker from "./ProfilePhotoPicker"
 
 const SignupForm = () => {
+  const [file, setFile] = useState(null)
   const [form, setForm] = useState(
     {
       username: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      photoURL: ""
     }
   )
 
@@ -51,7 +54,8 @@ const SignupForm = () => {
     const loadingId = toast.loading("Creating account...");
 
     try {
-      await signup(form);
+      const payload = {...form}
+      await signup(payload, file)
       toast.dismiss(loadingId);
       toast.success("Account created successfully");
     } catch (error) {
@@ -70,18 +74,25 @@ const SignupForm = () => {
           Sign Up for a DEV@DEAKIN account
         </p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-2">
 
 
-        <Label htmlFor="username">Username</Label>
-        <Input
-          id="username"
-          type="text"
-          placeholder="Choose a username"
-          value={form.username}
-          onChange={(event) => setForm({...form, username: event.target.value})}
-          required
-        />
+        <div className="flex gap-8 pr-8">
+          <div className="space-y-2 w-full">
+           <Label htmlFor="username">Username</Label>
+            <Input
+              id="username"
+              type="text"
+              placeholder="Choose a username"
+              value={form.username}
+              onChange={(event) => setForm({...form, username: event.target.value})}
+              required
+            />
+          </div>
+          <div className="flex justify-center items-center">
+            <ProfilePhotoPicker file={file} setFile={setFile} />
+          </div>
+        </div>
 
         <Label htmlFor="email">Email</Label>
         <Input
@@ -111,7 +122,7 @@ const SignupForm = () => {
           required
         />
 
-        <Button className="w-full" type="submit">
+        <Button className="w-full mt-2" type="submit">
           Sign Up
         </Button>
 

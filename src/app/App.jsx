@@ -11,6 +11,7 @@ import PricingsPage from '@/features/subscriptions/routes/PricingsPage'
 import PostPage from '@/features/post/routes/PostPage'
 import QuestionsPage from '@/features/questions/routes/QuestionsPage'
 import SignOutPage from '@/features/auth/routes/SignOutPage'
+import ChatPage from '@/features/chat/routes/ChatPage'
 
 import { AuthProvider } from './contexts/AuthContext'
 import RequireAuth from './RequireAuth'
@@ -30,6 +31,7 @@ const App = () => {
             <Route path='pricing' element={<PricingsPage />}/>
             <Route path='post' element={<PostPage />}/>
             <Route path='questions' element={<QuestionsPage />}/>
+            <Route path='chat' element={<ChatPage />}/>
           </Route>
 
         </Route>

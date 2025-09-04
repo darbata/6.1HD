@@ -6,7 +6,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 const articlesCol = collection(db, "articles")
 
 // routes
-export const createArticle = async ({title, abstract, articleText, tags, imageFile}) => {
+export const createArticle = async ({title, abstract, articleText, tags}) => {
     const storageRef = ref(storage, `images/${imageFile.name}`)
 
     // upload image to bucket

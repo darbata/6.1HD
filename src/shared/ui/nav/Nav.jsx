@@ -63,6 +63,12 @@ const Nav = () => {
                             </NavigationMenuContent>
                         </NavigationMenuItem>
 
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                <Link to="/chat">Chat</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+
 
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
