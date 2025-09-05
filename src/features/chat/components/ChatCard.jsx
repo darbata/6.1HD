@@ -1,21 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { User } from "lucide-react"
+import UserCard from "./UserCard"
 
 
-const ChatCard = ({displayName, photoURL, onClick}) => {
+const ChatCard = ({chat, currentUserID, onClick}) => {
+    const otherID = chat.userIDs.find((id) => id !== currentUserID)
+    const otherUser = chat.users[otherID]
     return (
-        <Card className="flex w-full h-12 items-center justify-center cursor-pointer" onClick={onClick}>
-            <CardContent className="flex w-full gap-4 ">
-                <Avatar className="border">
-                    <AvatarImage src={photoURL} />
-                    <AvatarFallback><User /></AvatarFallback>
-                </Avatar>
-                <div className="flex items-center">
-                    <h2 className="text-lg">{displayName}</h2>
-                </div>
-            </CardContent>
-        </Card>
+        <UserCard user={otherUser} onClick={() => onClick(chat)} />
     )
 }
 

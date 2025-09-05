@@ -16,7 +16,7 @@ export const getUser = async (userID) => {
     return { id: snap.id, ...snap.data() };
 }
 
-// export const getAllUsers = async () => {
-//     const snap = await getDocs(collection(db, "users"));
-//     return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-// }
+export const getAllUsers = async () => {
+    const snap = await getDocs(collection(db, "users"));
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
