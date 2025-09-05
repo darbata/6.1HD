@@ -1,6 +1,6 @@
 import { getUser } from "@/features/auth/api/users.repo";
 import { db } from "@/services/firebase"
-import { serverTimestamp, collection, query, doc, getDoc, getDocs, where, setDoc, onSnapshot, orderBy } from "firebase/firestore";
+import { serverTimestamp, collection, query, doc, getDoc, getDocs, where, setDoc, onSnapshot, orderBy, addDoc } from "firebase/firestore";
 
 const chatsCol = collection(db, "chats")
 const messageCol = (chatID) => collection(db, "chats", chatID, "messages")
@@ -79,6 +79,25 @@ export const getOtherUserID = async (userID, chatID) => {
     if (userID == userIDA) return userIDB
     if (userID == userIDB) return userIDA
 
+}
+
+export const getMessagesFromChat = async (chatID) => {
+    const chatRef = doc(db, "chats", chatID)
+    const messagesRef = collection(chatRef, "messages")
+
+    const snap = await getDocs(messagesRef)
+    return snap.docs.map(d => ({id: d.id, ...d.data()}))
+}
+
+export const sendMessage = async (chatID, senderID, messageContent) => {
+    const chatRef = doc(db, "chats", chatID)
+    const messagesRef = collection(chatRef, "messages")
+
+    await addDoc(messagesRef, {
+        sender: senderID,
+        content: messageContent,
+        createdAt: serverTimestamp()
+    })
 }
 
 // export const subUserChats = async (userID, callback) => {
