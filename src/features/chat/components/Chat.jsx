@@ -4,18 +4,27 @@ import { Separator } from "@/components/ui/separator"
 import { useAuth } from "@/app/contexts/AuthContext"
 import {useChats} from "../hooks/useChats"
 import ChatCard from './ChatCard'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import FindUsers from "../components/FindUsers"
 import { Toggle } from "@/components/ui/toggle"
-import { createChat, sendMessage } from "../api/chat.repo"
+import { createChat, getMessagesFromChat, sendMessage, subscribeToMessages } from "../api/chat.repo"
 import { Button } from "@/components/ui/button"
+import MessageBubble from "./MessageBubble.jsx"
 
 const Chat = () => {
     // TODO: Break down into smaller components {chats, active chat messages...}
 
     const [searchVisible, setSearchVisible] = useState(false)
-    const [activeChatID, setActiveChatID] = useState("")
+    const [activeChat, setActiveChat] = useState("")
+    const [otherUser, setOtherUser] = useState("")
     const [message, setMessage] = useState("")
+    const [messages, setMessages] = useState([])
+
+    useEffect(() => {
+        if (!activeChat?.id) return
+        const unsub = subscribeToMessages(activeChat.id, setMessages)
+        return () => unsub()
+    }, [activeChat?.id])
 
     // get current user
     const { currentUser } = useAuth()
@@ -25,23 +34,27 @@ const Chat = () => {
     const chats = useChats(userID) 
 
     const handleUserClick = (other) => {
+        console.log("CREATING CHAT")
         createChat(userID, other.id)
         setSearchVisible(!searchVisible)
     }
  
-    const handleChatClick = (chat) => {
-        setActiveChatID(chat.id)
-        console.log(activeChatID)
+    const handleChatClick = async (chat) => {
+        setActiveChat(chat)
+        const other = chat.userIDs.find((id) => id !== userID)
+        setOtherUser(chat.users[other])
+        const messages = await getMessagesFromChat(chat.id)
+        setMessages(messages)
     }
 
     // create message in active chat
     const handleSendMessage = () => {
-        if (!activeChatID || !message) {
+        if (!activeChat || !message) {
             console.log("No active chat or message")
             return
         }
 
-        sendMessage(activeChatID, userID, message)
+        sendMessage(activeChat.id, userID, message)
         console.log("SENDING MESSAGE")
         setMessage("")
     }
@@ -78,8 +91,15 @@ const Chat = () => {
                 {/* Current Chat and Messages Inside */}
             <div className="w-[75%] h-full p-4 flex flex-col">
                 <div className="h-[90%]">
-                    <h2>activeChat.displayName</h2>
+                    <div className="h-[30px]">
+                        {activeChat ? <h2 className="font-semibold">{otherUser.displayName}</h2> : null}
+                    </div>
                     <Separator/>
+                    <ScrollArea className="flex flex-col h-full justify-end min-h-full">
+                        <div className="flex flex-col min-h-full justify-end p-4">
+                            {messages ? messages.map((message) => <MessageBubble key={message.id} message={message} fromUser={message.sender == userID} />) : null}
+                        </div>
+                    </ScrollArea>
                 </div>
                 <div className="flex flex-col p-4 h-[10%]">
                     <div className="flex gap-2">

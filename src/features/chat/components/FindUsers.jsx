@@ -15,6 +15,7 @@ const FindUsers = ({currentUserID, handleUserClick}) => {
             user.displayName?.toLowerCase().includes(search.toLowerCase())
     )
 
+
     return (
         <div className="absolute top-1/5 left-1/2 -translate-x-1/2 z-40 w-[400px] h-auto aspect-[3/4] border p-4 flex flex-col gap-2 rounded">
             <Input value={search} onChange={(event) => setSearch(event.target.value)}></Input>

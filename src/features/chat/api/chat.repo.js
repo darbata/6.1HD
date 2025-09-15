@@ -85,7 +85,9 @@ export const getMessagesFromChat = async (chatID) => {
     const chatRef = doc(db, "chats", chatID)
     const messagesRef = collection(chatRef, "messages")
 
-    const snap = await getDocs(messagesRef)
+    const q = query(messagesRef, orderBy("createdAt", "asc"))
+
+    const snap = await getDocs(q)
     return snap.docs.map(d => ({id: d.id, ...d.data()}))
 }
 
@@ -98,6 +100,23 @@ export const sendMessage = async (chatID, senderID, messageContent) => {
         content: messageContent,
         createdAt: serverTimestamp()
     })
+}
+
+export const subscribeToMessages = (chatId, callback) => {
+    const chatRef = doc(db, "chats", chatId)
+    const messagesRef = collection(chatRef, "messages")
+
+    const q = query(messagesRef, orderBy("createdAt", "asc"))
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+        const msgs = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))
+        callback(msgs)
+    })
+
+  return unsubscribe
 }
 
 // export const subUserChats = async (userID, callback) => {
