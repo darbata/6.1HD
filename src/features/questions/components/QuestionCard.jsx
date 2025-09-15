@@ -4,17 +4,36 @@ import { Toggle } from "@/components/ui/toggle"
 import { Trash2 } from "lucide-react"
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
-import { timestampToDate } from "@/services/utilities"
+import CodeMirror, { EditorView } from "@uiw/react-codemirror";
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python";
+import { java } from "@codemirror/lang-java";
+import { cpp } from "@codemirror/lang-cpp";
+import ReactMarkdown from "react-markdown";
+
+// title, description, code, codeLanguage, createdAt
+
+const languageMap = {
+  javascript: javascript(),
+  python: python(),
+  java: java(),
+  "c++": cpp(),
+}
+
 
 const QuestionCard = ({question, handleDelete}) => {
     const [visible, setVisible] = useState(false)
 
     const date = question.createdAt.toLocaleDateString()
 
+    const lang = languageMap[(question.codeLanguage || "javascript")]
+
+
     return (
-        <Card className={`flex flex-col w-full ${visible ? "" : "min-h-full aspect-[5/1]"}`}>
+        <Card className={`flex flex-col w-full ${visible ? "" : "max-h-[80px] aspect-[5/1]"}`}>
             <CardHeader className="grid grid-cols-16">
-                <p className={`grid col-span-14 text-l ${visible ? "" : "line-clamp-1"}`}>{question.title}</p>
+                <p className={`grid col-span-14 text-xl ${visible ? "" : "line-clamp-1"}`}>{question.title}</p>
                 <Toggle 
                     pressed={visible}
                     onPressedChange={setVisible}
@@ -27,13 +46,33 @@ const QuestionCard = ({question, handleDelete}) => {
                 </Button>
             </CardHeader>
 
-            <CardContent>
-                <p className={`${visible ? "" : "line-clamp-1"}`}>{question.description}</p>
-            </CardContent>
+            { visible && (
+                    <CardContent className="flex flex-col gap-8">
+                        <ScrollArea className="border">
+                            <div className="max-h-[250px] h-[250px]" >
+                                <ReactMarkdown>{question.description}</ReactMarkdown>
+                            </div>
+                        </ScrollArea>
 
-            <CardFooter>
-                <p className="ml-auto">{date}</p>
-            </CardFooter>
+                        <ScrollArea>
+                            <div className="max-h-[200px] h-[200px]" >
+                                <CodeMirror 
+                                    value={question.code ?? ""}
+                                    extensions={[lang, EditorView.editable.of(false)]}
+                                />
+                            </div> 
+                        </ScrollArea>
+                    </CardContent>
+                )
+
+            }
+
+            { visible && (
+                <CardFooter>
+                    <p className="ml-auto">{date}</p>
+                </CardFooter>
+            )}
+
         </Card>
     )
 }

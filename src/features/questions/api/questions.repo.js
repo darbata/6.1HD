@@ -5,11 +5,13 @@ import { doc, addDoc, deleteDoc, query, Timestamp, collection, getDocs, serverTi
 const questionsCol = collection(db, "questions");
 
 // routes
-export const createQuestion = async ({title, description, tags}) =>  {
+export const createQuestion = async ({title, description, code, codeLanguage, tags}) =>  {
     const payload = {
         title: title.trim(),
         description: description.trim(),
         tags: tags,
+        code: code,
+        codeLanguage: codeLanguage,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
     }
