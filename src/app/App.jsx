@@ -1,6 +1,6 @@
 import '../index.css'
 
-import { Routes, Route, Outlet } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/sonner'
 
 import Layout from '@/app/layout/Layout'
@@ -12,6 +12,8 @@ import PostPage from '@/features/post/routes/PostPage'
 import QuestionsPage from '@/features/questions/routes/QuestionsPage'
 import SignOutPage from '@/features/auth/routes/SignOutPage'
 import ChatPage from '@/features/chat/routes/ChatPage'
+import ArticleGalleryPage from '@/features/articles/routes/ArticleGalleryPage'
+import ArticlePage from '@/features/articles/routes/ArticlePage'
 
 import { AuthProvider } from './contexts/AuthContext'
 import RequireAuth from './RequireAuth'
@@ -28,9 +30,16 @@ const App = () => {
 
           <Route element = {<RequireAuth />}>
             <Route index element={<HomePage />}/>
-            <Route path='pricing' element={<PricingsPage />}/>
+
             <Route path='post' element={<PostPage />}/>
+
             <Route path='questions' element={<QuestionsPage />}/>
+
+            <Route path='articles' element={<ArticleGalleryPage />}/>
+            <Route path="articles/:articleId" element={<ArticlePage />} />
+
+            <Route path='pricing' element={<PricingsPage />}/>
+
             <Route path='chat' element={<ChatPage />}/>
           </Route>
 

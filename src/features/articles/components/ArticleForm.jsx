@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import FormInput from "@/shared/ui/forms/FormInput"
 import { createArticle } from "../api/articles.repo";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 const ArticleForm = () => {
   const [title, setTitle] = useState("")
@@ -13,6 +14,9 @@ const ArticleForm = () => {
   const [tags, setTags] = useState([])
   const [imageFile, setImageFile] = useState(null)
   const [preview, setPreview] = useState(null)
+
+  const auth = useAuth()
+  const displayName = auth.currentUser.displayName
 
   useEffect(() => {
     if (!imageFile) {
@@ -41,7 +45,7 @@ const ArticleForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    let id = await createArticle({title, abstract, articleText, tags, imageFile})
+    let id = await createArticle({displayName, title, abstract, articleText, tags, imageFile})
     if (id) {
       window.location.reload()
     }
@@ -71,7 +75,7 @@ const ArticleForm = () => {
         label="Content"
         input="content"
         inputType="textArea"
-        description="Go ahead and start writing..."
+        description="Go ahead and start writing... (feel free to use Markdown syntax here only)"
         value={articleText}
         onChange={(event) => setArticleText(event.target.value)}
       />
@@ -84,6 +88,12 @@ const ArticleForm = () => {
         value={tagsInput}
         onChange={handleTagChange}
       />
+
+      <div className="flex gap-2 pl-2 pr-2 h-4">
+        {tags.map((tag, index) => (
+          <span key = {index} className="text-muted-foreground bordered radius text-xs">{tag}</span>
+        ))}
+      </div>
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-2">
