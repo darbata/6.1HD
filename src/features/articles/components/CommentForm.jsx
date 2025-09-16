@@ -13,6 +13,7 @@ const CommentForm = ({articleId}) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         createComment({articleId, displayName, content})
+        setComment("")
     }
 
     return (

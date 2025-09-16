@@ -1,6 +1,6 @@
 import { db, storage } from "@/services/firebase"
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage"
-import { doc, getDoc, query, addDoc, getDocs, collection, orderBy, serverTimestamp } from "firebase/firestore"
+import { doc, onSnapshot, getDoc, query, addDoc, getDocs, collection, orderBy, serverTimestamp } from "firebase/firestore"
 
 // firebase reference
 const articlesCol = collection(db, "articles")
@@ -73,4 +73,29 @@ export const createComment = async ({articleId, displayName, content}) => {
 
     const commentRef = await addDoc(commentsCol, payload)
     return commentRef.id
+}
+
+export const getComments = async (articleId) => {
+    const commentsCol = collection(db, "articles", articleId, "comments")
+
+    const q = query(commentsCol, orderBy("createdAt", "desc"))
+
+    const snapshot = await getDocs(q)
+
+    const comments = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+    }))
+
+    return comments
+}
+
+export const listenToComments = (articleId, onUpdate) => {
+    const col = collection(db, "articles", articleId, "comments")
+
+    const q = query(col, orderBy('createdAt', 'desc'))
+    return onSnapshot(q, (snap) => {
+        const comments = snap.docs.map((comment) => ({id: comment.id, ...comment.data()}))
+        onUpdate(comments)
+    })
 }

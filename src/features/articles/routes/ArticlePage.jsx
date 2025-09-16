@@ -27,8 +27,8 @@ const ArticlePage = () => {
                 </section>
             )
             }
-            <CommentSection />
-            <CommentForm />
+            <CommentSection articleId={articleId} />
+            <CommentForm articleId={articleId}/>
         </section>
     )
 }
