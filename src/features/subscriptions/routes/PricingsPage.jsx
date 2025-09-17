@@ -6,23 +6,16 @@ const plans = [
         title: "Free",
         monthlyPrice: 0,
         description: "Everything any student needs",
-        features: ["a cool feature", "okay feature", "a really reallly really cool featur", "feature", "a useful feature"],
+        features: ["Ask Questions", "Explore Useful Articles", "View Other's Questions", "Create and Upload Articles", "Message with Others on DEV@DEAKIN"],
         btnCta: "Get started for free"
     },
     {
         title: "Pro",
         monthlyPrice: 10,
         description: "Accelerate your learning today",
-        features: ["a cool feature", "okay feature", "a really reallly really cool featur", "feature", "a useful feature"],
+        features: ["Everything in 'Free'", "Access to AI Chatbot to Assist Your Learning"],
         btnCta: "Get started with Pro"
     },
-    {
-        title: "Pro+",
-        monthlyPrice: 100,
-        description: "For those who are serious about their studies",
-        features: ["a cool feature", "okay feature", "a really reallly really cool featur", "feature", "a useful feature"],
-        btnCta: "Get started with Pro+"
-    }
 ]
 
 const PricingsPage = () => {
@@ -35,7 +28,7 @@ const PricingsPage = () => {
 
             <Separator />
 
-            <div className="grid grid-cols-3 gap-18">
+            <div className="grid grid-cols-2 gap-18">
                 {plans.map((plan) => <PlanCard key={plan.title} plan={plan} />)}
             </div>
         </div>

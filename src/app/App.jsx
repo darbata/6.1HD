@@ -14,6 +14,7 @@ import SignOutPage from '@/features/auth/routes/SignOutPage'
 import ChatPage from '@/features/chat/routes/ChatPage'
 import ArticleGalleryPage from '@/features/articles/routes/ArticleGalleryPage'
 import ArticlePage from '@/features/articles/routes/ArticlePage'
+import AiPage from '@/features/ai-bot/routes/AiPage'
 
 import { AuthProvider } from './contexts/AuthContext'
 import RequireAuth from './RequireAuth'
@@ -41,6 +42,9 @@ const App = () => {
             <Route path='pricing' element={<PricingsPage />}/>
 
             <Route path='chat' element={<ChatPage />}/>
+
+            <Route path='ai' element={<AiPage />}/>
+
           </Route>
 
         </Route>

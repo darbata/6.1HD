@@ -72,6 +72,11 @@ const Nav = () => {
                             </NavigationMenuLink>
                         </NavigationMenuItem>
 
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                <Link to="/ai">AI</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
 
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
