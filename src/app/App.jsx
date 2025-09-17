@@ -17,7 +17,7 @@ import ArticlePage from '@/features/articles/routes/ArticlePage'
 import AiPage from '@/features/ai-bot/routes/AiPage'
 
 import { AuthProvider } from './contexts/AuthContext'
-import RequireAuth from './RequireAuth'
+import RequireAuth from './router/RequireAuth'
 
 const App = () => {
   return (

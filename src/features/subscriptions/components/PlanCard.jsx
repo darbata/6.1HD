@@ -1,27 +1,45 @@
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { getCheckoutUrl } from "../api/subscriptions.repo"
+import { useAuth } from "@/app/contexts/AuthContext"
 
 
-const PlanCard = ({ plan }) => {
+const PlanCard = ({ plan, priceObj, disabled }) => {
+    const auth = useAuth()
+    const currentUserId = auth.currentUser.uid
+
+    const priceId = priceObj.id
+
+    const price = priceObj?.unit_amount / 100
+
+    const handleOnClick = async () => {
+        if (priceId == free) {
+            return
+        }
+
+        const checkoutUrl = await getCheckoutUrl(currentUserId, priceId)
+        window.location.href = checkoutUrl
+    }
+
     return (
         <Card className="aspect-[3/4] flex flex-col justify-around items-center">
             <CardHeader className="w-full flex flex-col gap-4">
-                <h2 className="text-2xl font-semibold">{plan.title}</h2>
-                <p className="text-5xl font-bold">${plan.monthlyPrice}</p>
+                <h2 className="text-2xl font-semibold">{plan.name}</h2>
+                <p className="text-5xl font-bold">${price}</p>
                 <p className="text-muted-foreground">Per user/month, billed monthly</p>
             </CardHeader>
 
             <CardContent className="w-full">
                 <p className="font-bold">{plan.description}</p>
                 <ul className="list-disc pl-5">
-                    {plan.features.map((feature, index) => (
+                    {/* {plan.features.map((feature, index) => (
                         <li key={index}>{feature}</li>
-                    ))}
+                    ))} */}
                 </ul>
             </CardContent>
 
             <CardFooter className="w-full flex justify-center items-center">
-                <Button className="w-full">{ plan.btnCta }</Button>
+                <Button className="w-full" disabled={disabled} onClick={handleOnClick}>Subscribe</Button>
             </CardFooter>
         </Card>
     )

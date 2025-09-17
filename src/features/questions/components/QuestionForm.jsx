@@ -34,12 +34,6 @@ const QuestionForm = () => {
     event.preventDefault()
     let id = await createQuestion({title, description, code, codeLanguage, tags})
 
-    console.log(title)
-    console.log(description)
-    console.log(code)
-    console.log(codeLanguage)
-    console.log(tags)
-
     if (id) {
       window.location.reload()
     }

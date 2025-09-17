@@ -1,24 +1,46 @@
 import PlanCard from '../components/PlanCard'
 import { Separator } from '@/components/ui/separator'
-
-const plans = [
-    {
-        title: "Free",
-        monthlyPrice: 0,
-        description: "Everything any student needs",
-        features: ["Ask Questions", "Explore Useful Articles", "View Other's Questions", "Create and Upload Articles", "Message with Others on DEV@DEAKIN"],
-        btnCta: "Get started for free"
-    },
-    {
-        title: "Pro",
-        monthlyPrice: 10,
-        description: "Accelerate your learning today",
-        features: ["Everything in 'Free'", "Access to AI Chatbot to Assist Your Learning"],
-        btnCta: "Get started with Pro"
-    },
-]
+import { getPlans, getUserPortalLink } from '../api/subscriptions.repo'
+import { useState, useEffect } from 'react'
+import useSubscription from '../hooks/useSubscription'
+import { Button } from '@/components/ui/button'
+import { useAuth } from '@/app/contexts/AuthContext'
 
 const PricingsPage = () => {
+    const subscribed = useSubscription()
+
+    const {currentUser } = useAuth()
+
+    const currency = "aud"
+
+    const [plans, setPlans] = useState([])
+
+    useEffect(() => {
+        (async () => {
+            const products = await getPlans();
+
+            setPlans([{
+                id: "free",
+                name: "Free",
+                description: "Everything any student needs",
+                prices: [
+                    {
+                        id: "free",
+                        currency: "aud",
+                        unit_amount: 0
+                    }
+                ]
+            },
+            ...products])
+        })();
+    }, []);
+
+    const handleManagePlan = async () => {
+        const url = await getUserPortalLink(currentUser.uid)
+        window.location.href = url
+    }
+
+    // console.log(plans)
     return (
         <div className="w-full flex flex-col justify-center items-center gap-20">
             <div className="w-full flex flex-col justify-center items-center max-w-[600px] text-center gap-4">
@@ -29,8 +51,22 @@ const PricingsPage = () => {
             <Separator />
 
             <div className="grid grid-cols-2 gap-18">
-                {plans.map((plan) => <PlanCard key={plan.title} plan={plan} />)}
+                {plans.map((plan) => { 
+                    const priceObj = plan.prices?.find((p) => p?.currency?.toLowerCase() === currency)
+                    let disabled = false
+
+                    if (plan.id != "free" && subscribed) {
+                        disabled = true
+                    }
+
+                    if (plan.id == "free") {
+                        disabled = true
+                    }
+                    return <PlanCard key={plan.id} priceObj={priceObj} plan={plan} disabled={disabled}   /> 
+                })}
             </div>
+
+            <Button variant="destructive" onClick={handleManagePlan}>Manage Plan</Button>
         </div>
     )
 }

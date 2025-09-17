@@ -17,13 +17,17 @@ import {
 } from "@/components/ui/markdown"
 
 import Prompt from "../components/Prompt"
-
-
+import useSubscription from "@/features/subscriptions/hooks/useSubscription"
 
 const AiPage = () => {
-    const [output, setOutput] = useState("")
-    const [input, setInput] = useState("Hello")
-    const [messages, setMessages] = useState([
+
+
+
+  const [output, setOutput] = useState("")
+  const [input, setInput] = useState("Hello")
+  const [messages, setMessages] = useState([
+
+
   {
     "id": 1,
     "role": "user",
@@ -85,6 +89,13 @@ const AiPage = () => {
     "content": "Yes. Use a media query to override the grid:\n\n```css\n@media (max-width: 500px) {\n  .container {\n    grid-template-columns: 1fr;\n  }\n}\n```\n\nThis forces all items into one column below 500px width."
   }
 ])
+
+  const subscribed = useSubscription()
+
+  if (!subscribed) {
+    return <div className="text-4xl font-bold">Please subscribe to access this feature</div>
+  }
+
 
     return (
         <section className="h-[800px] max-h-[800px] w-full flex flex-col border rounded">
