@@ -13,7 +13,7 @@ const PlanCard = ({ plan, priceObj, disabled }) => {
     const price = priceObj?.unit_amount / 100
 
     const handleOnClick = async () => {
-        if (priceId == free) {
+        if (priceId == "free") {
             return
         }
 

@@ -24,4 +24,3 @@ const useSubscription =  () => {
 }
 
 export default useSubscription
-
