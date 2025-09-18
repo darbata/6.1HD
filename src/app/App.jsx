@@ -18,6 +18,7 @@ import AiPage from '@/features/ai-bot/routes/AiPage'
 
 import { AuthProvider } from './contexts/AuthContext'
 import RequireAuth from './router/RequireAuth'
+import ForgotPasswordPage from '@/features/auth/routes/ForgotPasswordPage'
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/login' element={<LoginPage />}/>
         <Route path='/signup' element={<SignUpPage />}/>
         <Route path='/signout' element={<SignOutPage />}/>
+        <Route path='/forgot-password' element={<ForgotPasswordPage />}/>
 
         <Route element = {<Layout />}>
 

@@ -8,7 +8,7 @@ const SignOutPage = () => {
     useEffect(() => {
         const doLogout = async () => {
             try {
-                logout() // TODO: FIX THIS
+                logout() 
             } catch (error) {
                 console.error(error)
             } finally {

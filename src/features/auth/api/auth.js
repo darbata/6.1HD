@@ -6,7 +6,8 @@ import {
     signInWithEmailAndPassword, 
     signOut, 
     updateProfile,
-    onAuthStateChanged 
+    onAuthStateChanged, 
+    sendPasswordResetEmail
 } from "firebase/auth"
 
 // thin layer to wrap up auth, and allow components to use functions
@@ -40,4 +41,8 @@ export const logout = () => {
 
 export const listenAuthChange = (callback) => {
     return onAuthStateChanged(auth, callback)
+}
+
+export const sendForgotPasswordEmail = async (email) => {
+    await sendPasswordResetEmail(auth, email)
 }

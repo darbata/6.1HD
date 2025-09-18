@@ -45,14 +45,19 @@ const LoginForm = () => {
           required
         />
         <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-          placeholder=""
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
+        <div>
+          <Input
+            id="password"
+            type="password"
+            placeholder=""
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+          <div className="flex justify-end" onClick={() => navigate('/forgot-password')}>
+            <p className="text-sm text-muted-foreground cursor-pointer">forgot password?</p>
+          </div>
+        </div>
         <Button className="w-full" type="submit">Login</Button>
         <div className="relative flex items-center text-sm">
           <div className="flex-grow border-t border-border" />

@@ -37,7 +37,7 @@ export const getAllArticles = async () => {
 
     const snapshot = await getDocs(q)
 
-    const articles = snapshot.docs.map(doc => ({
+    const articles = await snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
     }))
