@@ -8,18 +8,23 @@ import {
 import { Button } from "@/components/ui/button"
 import { ArrowUp, Square } from "lucide-react"
 import { useState } from "react"
+import { createPrompt } from "../api/gemini"
+import { useAuth } from "@/app/contexts/AuthContext"
 
 const Prompt = () => {
+  const { currentUser } =useAuth()
+
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (event) => {
-    event.stopPropagation()
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+    await createPrompt(currentUser.uid, input) // write to db
+    setInput("")
+    setIsLoading(false)
   }
+
 
   const handleValueChange = (value) => {
     setInput(value)
@@ -30,7 +35,7 @@ const Prompt = () => {
       value={input}
       onValueChange={handleValueChange}
       isLoading={isLoading}
-      onSubmit={() => handleSubmit}
+      onSubmit={handleSubmit}
       className="w-full "
     >
       <PromptInputTextarea placeholder="Ask me anything..." />
@@ -42,7 +47,7 @@ const Prompt = () => {
             variant="default"
             size="icon"
             className="h-8 w-8 rounded-full"
-            onClick={() => handleSubmit}
+            onClick={handleSubmit}
           >
             {isLoading ? (
               <Square className="size-5 fill-current" />
