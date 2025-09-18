@@ -9,7 +9,7 @@ const SignUpPage = () => {
 
           <div className="h-full w-full min-w-0 min-h-0">
             <img 
-              src="/login.png" 
+              src="/signup.png" 
               alt="login form art" 
               className="block object-cover h-full w-full"
             />
